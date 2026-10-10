@@ -19,16 +19,21 @@ low-level control.
 ## Decision
 
 1. Build Mission 1 first as a standalone HTML demo (`tools/mission1_evacuation.html`), in the same
-   style as `tools/consensus_lab.html`. It is 2D, grid-based, with no vehicle dynamics and no
-   consensus algorithm. Allocation is a per-drone greedy assignment over local knowledge.
+   style as `tools/consensus_lab.html`. It is 2D and grid-based, with no vehicle dynamics. Tasks are a
+   binary Merkle tree that each drone holds its own copy of. Drones claim leaves with a greedy
+   capability match, and edge cases become local sub-leaves. The swarm reaches consensus when every
+   leaf is done. No averaging consensus algorithm is used yet.
 2. Keep every rule in the demo written so that it maps 1:1 onto the planned Python modules:
    - `world.py`: truth grid, survivors, no-go and no-GPS zones, aftershock
-   - `agent.py`: knowledge (map, searched cells, teammate states, survivor reports), allocation, behaviours
-   - `comms.py`: unit-disk links with a per-wall range factor, packet loss, hop-by-hop merge
+   - `agent.py`: knowledge (map, searched cells, teammate states with a bounded history, people), task
+     tree and leaf claiming, behaviours
+   - `comms.py`: unit-disk links with a per-wall range factor and hysteresis, packet loss, critical
+     links, hop-by-hop merge, abort relay
    - `operator.py`: objective and task priorities
 3. Treat Gazebo / ROS 2 as the later integration step, after the Python version exists:
    - one ROS 2 node per drone, running the same `agent.py` logic
-   - topics per message type: `state` (the broadcast state vector), `map_delta`, `survivor`, `claim`
+   - topics per message type: `state` (the broadcast state vector incl. root hash), `map_delta`,
+     `person`, `tree_delta` (only sent when root hashes differ), `abort`
    - a comms-emulation node that drops or delays messages by distance and walls, so the
      decentralization is real, not assumed
    - Gazebo for the building and sensors. PX4 SITL only if we need flight dynamics, which the

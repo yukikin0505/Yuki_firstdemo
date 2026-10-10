@@ -41,8 +41,9 @@ viz.py        figures (optional)
 `consensus_lab.html` and `mission1_evacuation.html` are standalone prototypes. They follow the same
 rules (agents only use their own sensing and messages), but they are not built on the Python package.
 In Mission 1, the JavaScript sections map onto the planned modules as follows: the ground-truth grid
-and survivors (`world.py`), knowledge, allocation and behaviours (`agent.py`), links and the hop-by-hop
-merge (`comms.py`), and priorities (`operator.py`). See
+and people (`world.py`); knowledge, the task tree, leaf claiming and behaviours (`agent.py`); links,
+critical-link maintenance, the hop-by-hop merge and the abort relay (`comms.py`); and the root goal
+and leaf priorities (`operator.py`). See
 [ADR 0002](decisions/0002-mission1-browser-prototype.md). `tests/test_tools_html.py` runs static
 checks on every demo.
 
