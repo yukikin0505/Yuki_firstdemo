@@ -36,6 +36,16 @@ viz.py        figures (optional)
 2. `comms.deliver(g, i, sent)` gives drone i the list `[(a_ij, x_j(t - tau)) for j in N_i]`.
 3. `consensus.consensus_step()` updates x_i from that inbox and the drone's own memory.
 
+## Browser demos (`tools/`)
+
+`consensus_lab.html` and `mission1_evacuation.html` are standalone prototypes. They follow the same
+rules (agents only use their own sensing and messages), but they are not built on the Python package.
+In Mission 1, the JavaScript sections map onto the planned modules as follows: the ground-truth grid
+and survivors (`world.py`), knowledge, allocation and behaviours (`agent.py`), links and the hop-by-hop
+merge (`comms.py`), and priorities (`operator.py`). See
+[ADR 0002](decisions/0002-mission1-browser-prototype.md). `tests/test_tools_html.py` runs static
+checks on every demo.
+
 ## Adding a scenario
 
 1. Write `run_<name>(cfg) -> Result` in `sim.py` (or a new module) and register it in `SCENARIOS`.

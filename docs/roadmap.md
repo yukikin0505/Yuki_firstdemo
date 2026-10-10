@@ -23,3 +23,5 @@ Fill in the status and dates in the team meeting.
 5. [ ] World + sensor model, Bayesian belief update
 6. [ ] Operator objective -> priors; local motion policy
 7. [ ] Stress-test configs (failures, blackouts)
+8. [x] Mission 1 browser prototype: building search + guided evacuation, 4 heterogeneous drones ([details](mission1_evacuation.md))
+9. [ ] Port Mission 1 to Python (`world.py`, `agent.py`, `operator.py`), then ROS 2 / Gazebo ([ADR 0002](decisions/0002-mission1-browser-prototype.md))

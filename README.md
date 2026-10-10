@@ -48,6 +48,14 @@ See [`docs/consensus_step1.md`](docs/consensus_step1.md).
 
 **Interactive demo:** open [`tools/consensus_lab.html`](tools/consensus_lab.html) in a browser. It shows the swarm diagram, fleet roles (task, backups, out of service), a failure with backup takeover, packet loss and fading information, live A / D / L matrices, charts and a comms transcript. It goes beyond the Python step 1: packet loss, age weighting, sensor types and roles are only in the demo so far.
 
+**Mission 1 demo:** open [`tools/mission1_evacuation.html`](tools/mission1_evacuation.html). Four
+heterogeneous drones search a damaged building whose layout is unknown and guide survivors to a safe
+exit. The demo includes capability-based task allocation on each drone, hop-by-hop sharing of maps and
+survivor reports, a draggable no-GPS zone with cooperative localization, a no-go zone, an aftershock,
+and failure injection (crash, lidar, radio, battery, navigation). It is a visual prototype without a
+consensus algorithm. See [`docs/mission1_evacuation.md`](docs/mission1_evacuation.md) and
+[ADR 0002](docs/decisions/0002-mission1-browser-prototype.md).
+
 **Next:** moving drones with switching topology, vector states, and the 2D search scenario (see
 [`docs/roadmap.md`](docs/roadmap.md)).
 
@@ -93,7 +101,7 @@ Planned once the search scenario exists: `configs/search_rescue_2d.yaml` (baseli
 ├── configs/              # scenario YAML files
 ├── tests/                # pytest suite
 ├── examples/             # small runnable scripts
-├── tools/                # standalone browser demos (consensus_lab.html)
+├── tools/                # standalone browser demos (consensus_lab.html, mission1_evacuation.html)
 └── docs/                 # architecture, scenarios, roadmap, literature, meeting notes, decisions
 ```
 

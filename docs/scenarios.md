@@ -23,6 +23,18 @@ A person is missing somewhere in a sector.
 - **Metrics:** time to detection, coverage, belief error vs ground truth, messages sent, and
   operator actions needed.
 
+## M1: search and guided evacuation from a damaged building (browser prototype)
+
+[`tools/mission1_evacuation.html`](../tools/mission1_evacuation.html), details in
+[mission1_evacuation.md](mission1_evacuation.md).
+
+After an earthquake, four heterogeneous drones (two start inside, two outside) explore a building
+with an unknown layout. They find survivors and lead them to the designated exit and then to a safe
+assembly point. Exits and corridors may be blocked, and some of this is only visible from outside.
+GPS is missing in a draggable zone, comms are attenuated by walls, a no-go zone kills any drone that
+enters, and failures can be injected. Each drone allocates tasks (search, map, check exits, relay,
+guide) from its own knowledge only. There is no consensus algorithm yet.
+
 ## S2: stress tests (planned)
 
 The same as S1 with injected events: drone failures, communication blackouts (a region or a time
