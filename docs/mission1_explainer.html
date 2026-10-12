@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mission 1 Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (~70ch) with full-width interactive figures; each section = idea, picture, what to try. */
+:root {
+  --bg: #f4f6f8; --panel: #ffffff; --ink: #101418; --ink-2: #4b5560; --ink-3: #7a8591;
+  --rule: #dce1e6; --grid: #eceff2; --accent: #2a78d6; --good: #1a7f4b; --bad: #c2372f; --warn: #9a6400;
+  --d0: #2a78d6; --d1: #eb6834; --d2: #1baf7a; --d3: #8a5cd6; --d4: #d6457e; --d5: #0e9fb5;
+  --surv: #c98a00; --nogps: #7b52c7; --wall: #39414a;
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111417; --panel: #1a1e22; --ink: #eef1f4; --ink-2: #b4bcc5; --ink-3: #87909a;
+    --rule: #2d333a; --grid: #232930; --accent: #3987e5; --good: #4cc488; --bad: #f07067; --warn: #e0a640;
+    --d0: #3987e5; --d1: #e0662f; --d2: #22b07e; --d3: #9d7ff0; --d4: #e05a8e; --d5: #20b2c8;
+    --surv: #e6a92a; --nogps: #a084ef; --wall: #c8d0d8; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111417; --panel: #1a1e22; --ink: #eef1f4; --ink-2: #b4bcc5; --ink-3: #87909a;
+  --rule: #2d333a; --grid: #232930; --accent: #3987e5; --good: #4cc488; --bad: #f07067; --warn: #e0a640;
+  --d0: #3987e5; --d1: #e0662f; --d2: #22b07e; --d3: #9d7ff0; --d4: #e05a8e; --d5: #20b2c8;
+  --surv: #e6a92a; --nogps: #a084ef; --wall: #c8d0d8; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--f-body); }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 16px; padding-block: 32px 64px; display: grid; gap: 28px; }
+header { display: grid; gap: 8px; }
+.eyebrow { font: 600 0.78rem var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 600 2.3rem/1.15 var(--f-display); margin: 0; text-wrap: balance; }
+.lede { font-size: 1.08rem; color: var(--ink-2); max-width: 66ch; margin: 0; }
+section { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 20px 22px 22px; display: grid; gap: 12px; min-width: 0; }
+h2 { font: 600 1.45rem/1.2 var(--f-display); margin: 0; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; text-wrap: balance; }
+h2 .n { font: 500 0.85rem var(--f-mono); color: var(--ink-3); }
+p { margin: 0; max-width: 70ch; }
+.muted { color: var(--ink-2); }
+.try { font-size: 0.9rem; color: var(--ink-2); border-left: 3px solid var(--accent); padding: 2px 0 2px 10px; max-width: 70ch; }
+.try b { color: var(--ink); }
+.fig { border: 1px solid var(--grid); border-radius: 6px; background: var(--bg); overflow-x: auto; max-width: 100%; }
+.fig svg { display: block; width: 100%; height: auto; min-width: 560px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; font-size: 0.88rem; color: var(--ink-2); }
+.controls label { display: inline-flex; gap: 8px; align-items: center; }
+input[type="range"] { accent-color: var(--accent); width: 170px; }
+button { font: 500 0.88rem var(--f-body); padding: 6px 14px; border-radius: 5px; border: 1px solid var(--rule); background: var(--panel); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--ink-3); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.out { font: 500 0.88rem var(--f-mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+.formula { font: 500 1rem var(--f-mono); background: var(--bg); border: 1px solid var(--grid); border-radius: 5px; padding: 8px 12px; overflow-x: auto; max-width: 100%; white-space: nowrap; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.card { border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; display: grid; gap: 4px; align-content: start; }
+.card b { font: 600 0.95rem var(--f-display); }
+.card span { font-size: 0.88rem; color: var(--ink-2); }
+table { border-collapse: collapse; width: 100%; font: 0.86rem var(--f-mono); font-variant-numeric: tabular-nums; }
+th, td { padding: 5px 8px; border-bottom: 1px solid var(--grid); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font: 500 0.78rem var(--f-body); color: var(--ink-3); }
+td.pick { font-weight: 600; color: var(--ink); background: var(--grid); }
+.tbl { overflow-x: auto; max-width: 100%; }
+.pill { display: inline-block; font: 600 0.72rem var(--f-mono); padding: 1px 7px; border-radius: 3px; color: #fff; }
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; counter-reset: s; }
+.flow div { border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; font-size: 0.86rem; color: var(--ink-2); }
+.flow div b { display: block; color: var(--ink); font: 600 0.92rem var(--f-display); }
+footer { font-size: 0.82rem; color: var(--ink-3); }
+svg text { font-family: var(--f-mono); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">UC Berkeley MEng capstone · Project 212 · U.S. Army Research Laboratory</div>
+    <h1>Mission 1, explained: how a leaderless drone swarm gets a person out of a collapsed building</h1>
+    <p class="lede">After an earthquake, the inside of a building is unknown, GPS drops out, and walls block radio. This page walks through the ideas behind the simulation one at a time. For each idea there is a small picture you can play with.</p>
+  </header>
+
+  <!-- 1 -->
+  <section>
+    <h2><span class="n">01</span>The scenario</h2>
+    <p>A 200 m × 200 m area. In the middle is a damaged building. Nobody knows its layout, and nobody knows where its openings are. All drones start at launch pad A. A person is somewhere inside, and the goal is to get them to the designated safe area. Nobody is in charge. Every drone decides for itself, using only what it sees and what its neighbours tell it.</p>
+    <div class="fig"><svg viewBox="0 0 900 420" role="img" aria-label="Map of the scenario">
+      <rect x="0" y="0" width="900" height="420" fill="var(--bg)"/>
+      <!-- building -->
+      <rect x="300" y="70" width="290" height="290" fill="var(--panel)" stroke="var(--wall)" stroke-width="5"/>
+      <line x1="445" y1="70" x2="445" y2="360" stroke="var(--wall)" stroke-width="4"/>
+      <line x1="300" y1="215" x2="590" y2="215" stroke="var(--wall)" stroke-width="4"/>
+      <rect x="352" y="355" width="22" height="10" fill="var(--good)"/><text x="363" y="385" text-anchor="middle" font-size="12" fill="var(--good)">usable opening</text>
+      <rect x="495" y="65" width="26" height="10" fill="var(--good)"/><text x="508" y="58" text-anchor="middle" font-size="12" fill="var(--good)">usable opening</text>
+      <rect x="295" y="110" width="10" height="22" fill="var(--bad)"/><text x="288" y="125" text-anchor="end" font-size="12" fill="var(--bad)">blocked inside</text>
+      <rect x="585" y="270" width="10" height="22" fill="var(--bad)"/><text x="602" y="285" font-size="12" fill="var(--bad)">blocked outside</text>
+      <circle cx="430" cy="130" r="12" fill="var(--surv)"/><text x="448" y="134" font-size="13" fill="var(--ink)">person</text>
+      <circle cx="445" cy="190" r="70" fill="var(--nogps)" opacity="0.1" stroke="var(--nogps)" stroke-dasharray="6 5"/><text x="445" y="276" text-anchor="middle" font-size="12" fill="var(--nogps)">no GPS</text>
+      <text x="445" y="400" text-anchor="middle" font-size="13" fill="var(--ink-2)">damaged building · layout unknown</text>
+      <!-- pads -->
+      <circle cx="90" cy="360" r="22" fill="none" stroke="var(--accent)" stroke-width="3"/><text x="90" y="404" text-anchor="middle" font-size="12" fill="var(--accent)">launch pad A</text>
+      <g><circle cx="80" cy="352" r="7" fill="var(--d0)"/><circle cx="98" cy="352" r="7" fill="var(--d1)"/><circle cx="80" cy="368" r="7" fill="var(--d2)"/><circle cx="98" cy="368" r="7" fill="var(--d3)"/><circle cx="72" cy="380" r="5" fill="var(--d4)"/><circle cx="106" cy="380" r="5" fill="var(--d5)"/></g>
+      <circle cx="700" cy="215" r="20" fill="none" stroke="var(--accent)" stroke-width="3"/><text x="700" y="253" text-anchor="middle" font-size="12" fill="var(--accent)">charging pad B</text>
+      <circle cx="810" cy="70" r="40" fill="var(--good)" opacity="0.15" stroke="var(--good)" stroke-width="3"/><text x="810" y="128" text-anchor="middle" font-size="13" fill="var(--good)">safe area</text>
+      <circle cx="800" cy="360" r="45" fill="var(--bad)" opacity="0.12" stroke="var(--bad)" stroke-width="2"/><text x="800" y="364" text-anchor="middle" font-size="12" fill="var(--bad)">no-go zone</text>
+      <path d="M430 130 C 470 120, 505 110, 508 75 C 560 40, 700 50, 772 66" fill="none" stroke="var(--good)" stroke-width="4" stroke-dasharray="2 8" stroke-linecap="round"/>
+      <text x="640" y="38" font-size="12" fill="var(--good)">escape route (found by the drones)</text>
+    </svg></div>
+    <p class="muted">Two of the four openings work. One is blocked by rubble inside, and one is blocked by a collapsed facade outside, which you can only see from the street. That's why some drones work inside and others inspect from outside.</p>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2><span class="n">02</span>Each drone is a node with a state vector</h2>
+    <p>Every drone carries the same kinds of hardware: a Jetson-class GPU, lidar, thermal and optical cameras, a light, a speaker and a small arm. The quality differs, so each drone is best at something but can still stand in for another. A few times a second, each drone broadcasts a short status message, its <b>state vector</b>:</p>
+    <div class="formula">id · p̂ ± σ (position and how sure it is) · v (velocity) · r (heading) · battery · health · Nᵢ (neighbours) · leaf · root hash</div>
+    <div class="cols" id="types"></div>
+    <p class="try">The bars are capability levels from 0 to 1. A task asks for a <b>mix</b> of them (section 05). This overlap is what lets the swarm re-plan when a drone fails.</p>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2><span class="n">03</span>Who can talk to whom: the comms graph</h2>
+    <p>Drones are <b>nodes</b>, and radio links are <b>edges</b>. Two drones are linked if they are close enough, and every wall between them shrinks that range:</p>
+    <div class="formula">link if  d ≤ min(rᵢ, rⱼ) · k^walls      link strength  aᵢⱼ = e^(−d²/σ²)</div>
+    <div class="fig"><svg id="linkfig" viewBox="0 0 900 230" role="img" aria-label="Two drones and the walls between them"></svg></div>
+    <div class="controls">
+      <label for="ldist">distance <input id="ldist" type="range" min="10" max="110" value="55"></label><span class="out" id="ldist-o"></span>
+      <label for="lwall">walls <input id="lwall" type="range" min="0" max="3" value="1"></label><span class="out" id="lwall-o"></span>
+      <label for="lkeep">range kept per wall <input id="lkeep" type="range" min="40" max="100" value="80"></label><span class="out" id="lkeep-o"></span>
+    </div>
+    <p class="try"><b>Try it:</b> add a wall and watch the link drop at a distance that was fine in the open. That's why a drone deep inside the building needs others to pass messages along, hop by hop.</p>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2><span class="n">04</span>Staying connected: critical links</h2>
+    <p>No drone sees the whole network. It sees its own neighbours, and each neighbour reports <i>its</i> neighbours, so a drone can sketch the graph around it. It then asks one question for each of its links: <b>"if this link broke, could I still reach my teammates some other way?"</b> If the answer is no, the link is <b>critical</b>, and the drone will not fly out of its range.</p>
+    <div class="fig"><svg id="critfig" viewBox="0 0 900 300" role="img" aria-label="A graph with critical links highlighted"></svg></div>
+    <div class="controls"><button type="button" id="critshuffle">Move the drones</button><span class="muted" id="crit-o"></span></div>
+    <p class="try"><b>Look:</b> orange edges are critical, the bridges that hold the network together. A drone held back by a critical link can <b>pull</b> its neighbour along. A drone that loses every neighbour flies to where a teammate was last reported, predicted from its stored message history.</p>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2><span class="n">05</span>The task tree, and why it's a Merkle tree</h2>
+    <p>The goal sits at the top, the <b>root</b>. It splits in two, and again, down to concrete <b>leaves</b> a single drone can do: search inside, map, inspect outside, track the person, guide them. Each drone keeps <b>its own copy</b> of this tree. Every node also carries a short <b>hash</b>, a fingerprint computed from its children. Change anything in a leaf, and every hash above it changes, all the way to the root.</p>
+    <div class="fig"><svg id="treefig" viewBox="0 0 900 360" role="img" aria-label="Binary Merkle task tree, two copies"></svg></div>
+    <div class="controls"><span class="muted">Click a leaf in <b>Drone A's copy</b> to mark it claimed or done.</span><button type="button" id="treesync">Drone A tells drone B</button><button type="button" id="treereset">Reset</button></div>
+    <p class="try"><b>Why this matters:</b> two neighbours first compare just their root hashes, a few bytes. If the hashes match, their trees are identical and nothing needs to be sent. If not, they walk down only the branches whose hashes differ. That saves radio bandwidth, which is scarce inside a collapsed building.</p>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <h2><span class="n">06</span>Claiming a leaf</h2>
+    <p>A free drone scores every open leaf and claims the best one, provided the score passes a threshold. It skips leaves someone else already holds, and it keeps its leaf until that leaf's <b>success criteria</b> are met, for example "≥ 90% of the floor searched" or "person is in the safe area".</p>
+    <div class="formula">score = priority × capability fit × battery factor − distance cost</div>
+    <div class="tbl" id="scoretbl"></div>
+    <div class="cols">
+      <div class="card"><b>Duplicates</b><span>Because there's no leader, two drones that heard different news can claim the same leaf. When their trees meet, the better-suited drone keeps it.</span></div>
+      <div class="card"><b>Swaps</b><span>Two drones in radio range can trade leaves if both end up better matched.</span></div>
+      <div class="card"><b>Priority threshold</b><span>If an important leaf stays open for 30 s, the best-suited drone on a less important leaf drops its leaf and takes it.</span></div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <h2><span class="n">07</span>Edge cases become local sub-trees</h2>
+    <p>Things go wrong in the field. When a drone runs into a problem on its own leaf, it splits that leaf in two: [keep doing my job, new sub-task]. Then it lets the drones <b>nearby</b> sort out the sub-task. For the first 15 s only drones within 2 hops may claim it. After that, anyone can.</p>
+    <div class="flow">
+      <div><b>At the edge of its radio link</b>adds "Relay for me". A backup launches and extends the chain. This is how the swarm decides by itself to send a third or fourth drone inside.</div>
+      <div><b>Lost GPS</b>adds "Localize me". A teammate comes close enough to range it.</div>
+      <div><b>New debris on the route</b>adds "Re-map the route". A mapping drone explores the detour.</div>
+      <div><b>Leaf done</b>the sub-tree closes. When every leaf is done, the root is reached: <b>consensus</b>.</div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <h2><span class="n">08</span>Knowing where you are without GPS</h2>
+    <p>Inside the no-GPS zone, a drone estimates its position from its own motion (dead reckoning). Its uncertainty σ grows the longer and faster it flies. Neighbours with a good fix can pin it back down: two of them measure range through walls (trilateration), or one with a clear line of sight measures range and bearing.</p>
+    <div class="fig"><svg id="locfig" viewBox="0 0 900 230" role="img" aria-label="Uncertainty growing and shrinking"></svg></div>
+    <div class="controls"><button type="button" class="primary" id="locplay">Play</button><span class="muted">σ grows at 0.03 + 0.04·|v| m/s, until two neighbours range the drone.</span></div>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <h2><span class="n">09</span>The abort signal</h2>
+    <p>If the goal stops making sense (the building is about to collapse, or the person didn't survive), one drone gets an <b>abort</b>. At every hop, each drone that has it passes it on to the neighbour <b>with the most neighbours</b> first, because that one can spread it furthest. Every drone that receives the abort drops its leaf and flies back to the launch pad.</p>
+    <div class="fig"><svg id="abortfig" viewBox="0 0 900 300" role="img" aria-label="Abort spreading through the network"></svg></div>
+    <div class="controls"><button type="button" class="primary" id="abortplay">Send abort to D0</button><span class="out" id="abort-o"></span></div>
+  </section>
+
+  <!-- 10 -->
+  <section>
+    <h2><span class="n">10</span>Did it work?</h2>
+    <p>The simulation ran headless 20 times: 10 building layouts, one or three people, 4 to 10 drones, and a crash, a navigation fault into the no-go zone, a lidar, radio or battery failure. <b>All 20 runs got everyone to the safe area</b> and reached consensus, in 3 to 10 simulated minutes. The flying network was split for about 5% of flight time, mostly right after a bridge drone crashed, and it repaired itself every time.</p>
+    <div class="cols">
+      <div class="card"><b>Search and tracking</b><span>detection rate, time to detection, tracking continuity</span></div>
+      <div class="card"><b>Mapping and routes</b><span>coverage, route validity, re-planning time, route efficiency</span></div>
+      <div class="card"><b>Guidance</b><span>evacuation success, evacuation time, guidance continuity</span></div>
+      <div class="card"><b>Coordination</b><span>info delivery, root-hash agreement, network split time, duplicate claims</span></div>
+    </div>
+    <p class="muted">All of these metrics are measured live in the demo (<code>tools/mission1_evacuation.html</code>). It's a browser prototype; the plan is to port the same logic to Python, then to one ROS 2 node per drone.</p>
+  </section>
+
+  <footer>Team: Yuki Kin, Maria Vlahos, Leonard Wang · Advisors: Mark Mueller, Christian Brommer · Built with Claude Code.</footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const txt = (parent, x, y, s, attrs = {}) => { const t = el("text", { x, y, "font-size": 13, fill: "var(--ink)", ...attrs }, parent); t.textContent = s; return t; };
+  const fnv = (s) => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(16).padStart(8, "0"); };
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------------------------------------------------------- 02 drone types
+  const TYPES = [
+    ["Scout", "lidar mapper", "--d0", { thermal: .35, optical: .6, lidar: 1, beacon: .35, radio: .5, gpu: .6, arm: .2 }],
+    ["Seeker", "thermal searcher", "--d1", { thermal: 1, optical: .8, lidar: .5, beacon: .5, radio: .5, gpu: 1, arm: .3 }],
+    ["Watcher", "outside inspector", "--d2", { thermal: .4, optical: 1, lidar: .7, beacon: .3, radio: .8, gpu: .6, arm: .1 }],
+    ["Herald", "guide: light + speaker", "--d4", { thermal: .6, optical: .6, lidar: .45, beacon: 1, radio: .6, gpu: .7, arm: .8 }],
+    ["Relay", "long-range radio", "--d5", { thermal: .3, optical: .7, lidar: .5, beacon: .4, radio: 1, gpu: .5, arm: .2 }],
+  ];
+  $("types").innerHTML = TYPES.map(([n, r, c, caps]) => `<div class="card"><b><span class="pill" style="background:var(${c})">${n}</span> ${r}</b>` +
+    Object.entries(caps).map(([k, v]) => `<span style="display:grid;grid-template-columns:62px 1fr;gap:8px;align-items:center;font:0.78rem var(--f-mono)">${k}<i style="display:block;height:7px;border-radius:4px;background:linear-gradient(90deg,var(${c}) ${v * 100}%,var(--grid) ${v * 100}%)"></i></span>`).join("") + `</div>`).join("");
+
+  // ---------------------------------------------------------- 03 link
+  function drawLink() {
+    const svg = $("linkfig"); svg.innerHTML = "";
+    const d = +$("ldist").value, w = +$("lwall").value, k = +$("lkeep").value / 100, R = 81;
+    const range = R * Math.pow(k, w), ok = d <= range;
+    $("ldist-o").textContent = `${d} m`; $("lwall-o").textContent = String(w); $("lkeep-o").textContent = `${Math.round(k * 100)} %`;
+    const x0 = 90, s = 6.5, x1 = x0 + d * s, y = 115;
+    el("rect", { x: 0, y: 0, width: 900, height: 230, fill: "var(--bg)" }, svg);
+    el("line", { x1: x0, y1: y + 50, x2: x0 + range * s, y2: y + 50, stroke: ok ? "var(--good)" : "var(--bad)", "stroke-width": 6, "stroke-linecap": "round", opacity: .5 }, svg);
+    txt(svg, x0, y + 78, `effective range = ${R} m × ${k.toFixed(2)}^${w} = ${range.toFixed(0)} m`, { fill: "var(--ink-2)" });
+    for (let i = 0; i < w; i++) { const wx = x0 + (d * s) * (i + 1) / (w + 1); el("rect", { x: wx - 5, y: y - 45, width: 10, height: 90, fill: "var(--wall)" }, svg); }
+    el("line", { x1: x0, y1: y, x2: x1, y2: y, stroke: ok ? "var(--ink-2)" : "var(--bad)", "stroke-width": ok ? 3 : 2, "stroke-dasharray": ok ? "" : "6 6" }, svg);
+    for (const [x, c, n] of [[x0, "--d0", "D0"], [x1, "--d1", "D1"]]) { el("circle", { cx: x, cy: y, r: 16, fill: `var(${c})` }, svg); txt(svg, x, y + 5, n, { "text-anchor": "middle", fill: "#fff", "font-size": 12, "font-weight": 600 }); }
+    const a = Math.exp(-(d * d) / (60 * 60));
+    txt(svg, x0, 36, ok ? `linked · strength aᵢⱼ = ${a.toFixed(2)}` : "no link: out of range", { fill: ok ? "var(--good)" : "var(--bad)", "font-size": 15, "font-weight": 600 });
+  }
+  ["ldist", "lwall", "lkeep"].forEach((id) => $(id).addEventListener("input", drawLink)); drawLink();
+
+  // ---------------------------------------------------------- 04 critical links (bridges)
+  let rng = 3;
+  const rand = () => { rng = (rng * 16807) % 2147483647; return rng / 2147483647; };
+  function drawCrit() {
+    const svg = $("critfig"); svg.innerHTML = "";
+    el("rect", { x: 0, y: 0, width: 900, height: 300, fill: "var(--bg)" }, svg);
+    let P, E;
+    for (let tries = 0; tries < 200; tries++) {
+      P = Array.from({ length: 8 }, (_, i) => [70 + i * 105 + (rand() - .5) * 60, 60 + rand() * 180]);
+      E = []; for (let i = 0; i < 8; i++) for (let j = i + 1; j < 8; j++) if (Math.hypot(P[i][0] - P[j][0], P[i][1] - P[j][1]) < 175) E.push([i, j]);
+      const seen = new Set([0]), st = [0]; while (st.length) { const i = st.pop(); for (const [a, b] of E) { const o = a === i ? b : b === i ? a : -1; if (o >= 0 && !seen.has(o)) { seen.add(o); st.push(o); } } }
+      if (seen.size === 8) break;
+    }
+    const conn = (skip) => { const seen = new Set([0]), st = [0]; while (st.length) { const i = st.pop(); for (const e of E) { if (e === skip) continue; const [a, b] = e; const o = a === i ? b : b === i ? a : -1; if (o >= 0 && !seen.has(o)) { seen.add(o); st.push(o); } } } return seen.size === 8; };
+    let nb = 0;
+    for (const e of E) { const crit = !conn(e); if (crit) nb++; el("line", { x1: P[e[0]][0], y1: P[e[0]][1], x2: P[e[1]][0], y2: P[e[1]][1], stroke: crit ? "var(--warn)" : "var(--ink-3)", "stroke-width": crit ? 5 : 2, opacity: crit ? 1 : .6 }, svg); }
+    const cols = ["--d0", "--d1", "--d2", "--d3", "--d4", "--d5", "--d0", "--d1"];
+    P.forEach((p, i) => { el("circle", { cx: p[0], cy: p[1], r: 15, fill: `var(${cols[i]})` }, svg); txt(svg, p[0], p[1] + 5, `D${i}`, { "text-anchor": "middle", fill: "#fff", "font-size": 11, "font-weight": 600 }); });
+    $("crit-o").textContent = `${nb} critical link${nb === 1 ? "" : "s"} out of ${E.length}`;
+  }
+  $("critshuffle").addEventListener("click", drawCrit); drawCrit();
+
+  // ---------------------------------------------------------- 05 Merkle tree, two copies
+  const LEAVES = ["Search", "Track", "Map", "Inspect SW", "Inspect NE", "Guide"];
+  const STATES = ["open", "claimed", "done"];
+  let A = LEAVES.map(() => 0), Bc = LEAVES.map(() => 0);
+  function tree(st) {   // leaves -> pairs -> ... -> root, each node hashes its children
+    let level = LEAVES.map((n, i) => ({ label: n, st: st[i], h: fnv(`${n}|${st[i]}`), leaf: i }));
+    const levels = [level];
+    while (level.length > 1) {
+      const next = [];
+      for (let i = 0; i < level.length; i += 2) {
+        const a = level[i], b = level[i + 1] || null;
+        next.push({ kids: b ? [a, b] : [a], h: fnv(`${a.h}|${b ? b.h : ""}`), done: a.st === 2 && (!b || b.st === 2) || (a.done && (!b || b.done)) });
+      }
+      levels.push(next); level = next;
+    }
+    return levels;
+  }
+  function drawTree() {
+    const svg = $("treefig"); svg.innerHTML = "";
+    el("rect", { x: 0, y: 0, width: 900, height: 360, fill: "var(--bg)" }, svg);
+    const draw = (st, x0, title, clickable, other) => {
+      const L = tree(st), O = tree(other), W = 420, depth = L.length;
+      txt(svg, x0 + W / 2, 24, title, { "text-anchor": "middle", "font-size": 14, "font-weight": 600, "font-family": "var(--f-body)" });
+      const pos = [];
+      L.forEach((lev, d) => { pos[d] = lev.map((_, i) => [x0 + (i + .5) * W / lev.length, 330 - d * 70]); });
+      L.forEach((lev, d) => lev.forEach((n, i) => { if (n.kids) n.kids.forEach((_, k) => { const c = pos[d - 1][i * 2 + k]; el("line", { x1: pos[d][i][0], y1: pos[d][i][1] - 14, x2: c[0], y2: c[1] - 14 + 28, stroke: "var(--rule)", "stroke-width": 2 }, svg); }); }));
+      L.forEach((lev, d) => lev.forEach((n, i) => {
+        const [x, y] = pos[d][i], diff = O[d][i].h !== n.h, isRoot = d === depth - 1, w = n.leaf !== undefined ? 66 : 74;
+        const fillc = n.leaf !== undefined ? (n.st === 2 ? "color-mix(in srgb, var(--good) 25%, var(--panel))" : "var(--panel)") : "var(--panel)";
+        const r = el("rect", { x: x - w / 2, y: y - 28, width: w, height: 30, rx: 5, fill: fillc, stroke: diff ? "var(--bad)" : n.leaf !== undefined && n.st === 1 ? "var(--accent)" : "var(--ink-3)", "stroke-width": diff ? 2.5 : 1.5, "stroke-dasharray": n.leaf !== undefined && n.st === 0 ? "4 3" : "" }, svg);
+        txt(svg, x, y - 15, n.leaf !== undefined ? n.label : isRoot ? "ROOT" : "", { "text-anchor": "middle", "font-size": 10.5, "font-weight": 600 });
+        txt(svg, x, y - 3, n.h.slice(0, 6), { "text-anchor": "middle", "font-size": 9.5, fill: diff ? "var(--bad)" : "var(--ink-3)" });
+        if (n.leaf !== undefined) txt(svg, x, y + 14, STATES[n.st], { "text-anchor": "middle", "font-size": 9.5, fill: "var(--ink-2)" });
+        if (clickable && n.leaf !== undefined) { r.style.cursor = "pointer"; r.addEventListener("click", () => { A[n.leaf] = (A[n.leaf] + 1) % 3; drawTree(); }); }
+      }));
+    };
+    draw(A, 20, "Drone A's copy", true, Bc);
+    draw(Bc, 460, "Drone B's copy", false, A);
+    const same = tree(A).at(-1)[0].h === tree(Bc).at(-1)[0].h;
+    txt(svg, 450, 352, same ? "root hashes match → nothing to send" : "root hashes differ → send only the red branches", { "text-anchor": "middle", "font-size": 12, fill: same ? "var(--good)" : "var(--bad)" });
+  }
+  $("treesync").addEventListener("click", () => { Bc = A.slice(); drawTree(); });
+  $("treereset").addEventListener("click", () => { A = LEAVES.map(() => 0); Bc = A.slice(); drawTree(); });
+  drawTree();
+
+  // ---------------------------------------------------------- 06 score table
+  const REQ = { Search: { thermal: .5, optical: .2, gpu: .3 }, Map: { lidar: .7, optical: .15, gpu: .15 }, "Inspect outside": { optical: .5, lidar: .3, radio: .2 }, Guide: { beacon: .6, thermal: .15, optical: .15, arm: .1 } };
+  const PRIO = { Search: 1, Map: .8, "Inspect outside": .8, Guide: 1.4 };
+  const fit = (caps, req) => Object.entries(req).reduce((s, [k, v]) => s + v * (caps[k] || 0), 0);
+  let html = `<table><thead><tr><th>drone</th>${Object.keys(REQ).map((k) => `<th>${k}</th>`).join("")}</tr></thead><tbody>`;
+  for (const [n, , c, caps] of TYPES) {
+    const sc = Object.keys(REQ).map((k) => PRIO[k] * fit(caps, REQ[k]));
+    const best = sc.indexOf(Math.max(...sc));
+    html += `<tr><td><span class="pill" style="background:var(${c})">${n}</span></td>${sc.map((v, i) => `<td class="${i === best ? "pick" : ""}">${v.toFixed(2)}</td>`).join("")}</tr>`;
+  }
+  $("scoretbl").innerHTML = html + `</tbody></table><p class="muted" style="font-size:.84rem;margin-top:6px">priority × fit, before battery and distance. The highlighted cell is each drone's best match. The Herald wins Guide even though the Seeker could do it, and that overlap is the backup plan.</p>`;
+
+  // ---------------------------------------------------------- 08 localization
+  let locT = 0, locTimer = null;
+  function drawLoc() {
+    const svg = $("locfig"); svg.innerHTML = "";
+    el("rect", { x: 0, y: 0, width: 900, height: 230, fill: "var(--bg)" }, svg);
+    const fixAt = 7, tt = locT;
+    const sigma = tt < fixAt ? 1 + (0.03 + 0.04 * 3) * tt * 4 : 1.3;
+    const x = 120 + tt * 70, y = 120;
+    el("rect", { x: 260, y: 20, width: 380, height: 190, fill: "var(--nogps)", opacity: .08 }, svg);
+    txt(svg, 450, 40, "no-GPS zone", { "text-anchor": "middle", fill: "var(--nogps)" });
+    el("circle", { cx: x, cy: y, r: sigma * 9, fill: "none", stroke: "var(--d1)", "stroke-width": 2, "stroke-dasharray": "4 4" }, svg);
+    if (tt >= fixAt) for (const [ax, ay] of [[x - 120, 40], [x + 110, 200]]) { el("line", { x1: ax, y1: ay, x2: x, y2: y, stroke: "var(--nogps)", "stroke-width": 2, "stroke-dasharray": "3 4" }, svg); el("circle", { cx: ax, cy: ay, r: 11, fill: "var(--d2)" }, svg); }
+    el("circle", { cx: x, cy: y, r: 11, fill: "var(--d1)" }, svg);
+    txt(svg, 20, 220, `t = ${tt.toFixed(1)} s   σ = ${sigma.toFixed(1)} m   ${tt >= fixAt ? "two neighbours range it → σ snaps back" : tt > 2 ? "dead reckoning: σ grows" : "GPS fix"}`, { fill: "var(--ink-2)" });
+  }
+  $("locplay").addEventListener("click", () => {
+    clearInterval(locTimer); locT = 0;
+    locTimer = setInterval(() => { locT += 0.1; if (locT > 10) { clearInterval(locTimer); locT = 10; } drawLoc(); }, reduce ? 0 : 60);
+    if (reduce) { locT = 10; drawLoc(); clearInterval(locTimer); }
+  });
+  drawLoc();
+
+  // ---------------------------------------------------------- 09 abort propagation
+  const AP = [[90, 150], [220, 70], [230, 230], [370, 150], [500, 70], [520, 230], [650, 150], [790, 90], [800, 230]];
+  const AE = [[0, 1], [0, 2], [1, 3], [2, 3], [3, 4], [3, 5], [4, 6], [5, 6], [6, 7], [6, 8], [1, 2], [4, 5]];
+  const deg = (i) => AE.filter(([a, b]) => a === i || b === i).length;
+  let informed = new Set(), hops = [], abortTimer = null;
+  function drawAbort() {
+    const svg = $("abortfig"); svg.innerHTML = "";
+    el("rect", { x: 0, y: 0, width: 900, height: 300, fill: "var(--bg)" }, svg);
+    for (const [a, b] of AE) el("line", { x1: AP[a][0], y1: AP[a][1], x2: AP[b][0], y2: AP[b][1], stroke: "var(--ink-3)", "stroke-width": 2, opacity: .5 }, svg);
+    hops.forEach(([a, b], k) => { el("line", { x1: AP[a][0], y1: AP[a][1], x2: AP[b][0], y2: AP[b][1], stroke: "var(--bad)", "stroke-width": 4 }, svg); txt(svg, (AP[a][0] + AP[b][0]) / 2, (AP[a][1] + AP[b][1]) / 2 - 6, `#${k + 1}`, { "text-anchor": "middle", fill: "var(--bad)", "font-size": 12, "font-weight": 600 }); });
+    AP.forEach((p, i) => {
+      el("circle", { cx: p[0], cy: p[1], r: 17, fill: informed.has(i) ? "var(--bad)" : "var(--panel)", stroke: informed.has(i) ? "var(--bad)" : "var(--ink-3)", "stroke-width": 2 }, svg);
+      txt(svg, p[0], p[1] + 4, `D${i}`, { "text-anchor": "middle", "font-size": 11, "font-weight": 600, fill: informed.has(i) ? "#fff" : "var(--ink)" });
+      txt(svg, p[0], p[1] + 34, `${deg(i)} nbrs`, { "text-anchor": "middle", "font-size": 10, fill: "var(--ink-3)" });
+    });
+  }
+  function abortStep() {
+    const newly = [];
+    for (const i of informed) {
+      const cand = AE.filter(([a, b]) => a === i || b === i).map(([a, b]) => (a === i ? b : a)).filter((j) => !informed.has(j) && !newly.some((x) => x[1] === j));
+      if (!cand.length) continue;
+      cand.sort((p, q) => deg(q) - deg(p) || p - q);
+      newly.push([i, cand[0]]);
+    }
+    for (const h of newly) { informed.add(h[1]); hops.push(h); }
+    $("abort-o").textContent = `${informed.size} of ${AP.length} drones informed after ${hops.length} hop${hops.length === 1 ? "" : "s"}`;
+    drawAbort();
+    if (!newly.length || informed.size === AP.length) clearInterval(abortTimer);
+  }
+  $("abortplay").addEventListener("click", () => {
+    clearInterval(abortTimer); informed = new Set([0]); hops = []; drawAbort();
+    $("abort-o").textContent = "D0 has the abort";
+    if (reduce) { while (informed.size < AP.length) { const n = informed.size; abortStep(); if (informed.size === n) break; } }
+    else abortTimer = setInterval(abortStep, 700);
+  });
+  drawAbort();
+})();
+</script>
+</body>
+</html>
