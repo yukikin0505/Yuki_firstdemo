@@ -64,8 +64,8 @@ ROOT  Everyone in the safe area
     └── Guide people out                     one leaf per person, added on a find
 ```
 
-- **Hashes.** A leaf hashes (id, claimant, done); an internal node hashes its two children (FNV-1a,
-  32 bit). Two drones with the same root hash hold the same tree. Neighbours compare root hashes in
+- **Hashes.** A leaf hashes (id, claimant, done); an internal node hashes its two children (BLAKE3,
+  256 bit, implemented inline in the page; the views show the first 8 hex digits). Two drones with the same root hash hold the same tree. Neighbours compare root hashes in
   the state vector and send tree updates only when they differ.
 - **Each drone has its own copy**, built only from what its neighbours send. Copies converge with the
   same merge rule everywhere: newer claim wins for the same drone; a release and a claim are ordered
